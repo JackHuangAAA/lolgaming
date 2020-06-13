@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>诺克萨斯杯</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <style>
+
+	*{
+		margin:0;
+		padding:0;
+	}
+	.players{
+		display:inline-block;
+		//float:left
+	}
+	.groupli{
+		display:inline-block;
+		margin:1rem;
+	}
+	.player-unit{
+		width:60px;
+		height:80px;
+		padding:2px;
+		margin:2px;
+		font:1rem 'Open Sans', sans-serif;
+		text-align:center;
+	}
+	.player{
+		list-style-type:none;
+	}
+	.img_player{
+		width:60px;
+		height:60px;
+	}
+	body{
+		font:1rem 'Open Sans', sans-serif;
+		color: #5e5b64;
+		text-align:center;
+	}
+	.submit_button{
+	width:100%;
+	text-align:center;
+	}
+    </style>
+
+</head>
+<body>
+<div id="main">
+<div class="header">
+  <h1>诺克萨斯杯业余赛</h1>
+</div>
+<h2 style="">目前已报名人数：<span style="font-size:2rem" id="applySum">{{applySum}}</span><h2>
+
+<ul class="player">
+  <li class="players" v-for="item in players" :key="item.name">
+	<div class="player-unit">
+		<img class="img_player" v-bind:src="item.img"/>
+		<h5>{{item.name}}<h5>
+		<input type="checkbox" name="aplly" :value="item.name" :id="item.name" v-model="checked" onchange="getApply(this)"><br>
+	</div>
+  </li>
+</ul>
+<hr />
+<div style="#000;margin:0 auto; width:100%;">
+	<button @click="grouping" style="width:140px;height:36px;line-height:18px;font:bold 1rem arial;color:#00CCFF;padding-bottom:4px;margin:10px">开始分组</button>
+	<table border="1px" style="width:80%;margin:10px auto;border-collapse:collapse;"> 
+		<tr>
+			<td style="background-color:red;color:white;font-size:1rem"><ul style="margin:2px;" id="group_playerA">A队</ul></td>
+			<td >VS</td>
+			<td style="background-color:#00CCFF;color:white;font-size:1rem"><ul style="margin:2px;"id="group_playerB">B队</ul></td>
+		</tr>
+		<tr>
+			<td style="font-size:1rem"><ul style="margin:2px;" id="group_strengthA">0</ul></td>
+			<td style="font-size:1rem">实力值</td>
+			<td style="font-size:1rem"><ul style="margin:2px;"id="group_strengthB">0</ul></td>
+		</tr>
+		<tr>
+			<td style="font-size:1rem"><ul style="margin:2px;" id="group_payA">0</ul></td>
+			<td style="font-size:1rem">赔率</td>
+			<td style="font-size:1rem"><ul style="margin:2px;"id="group_payB">0</ul></td>
+		</tr>
+	</table>
+</div>
+<hr />
+<div class="goals">
+	<h5>积分榜</h5>
+	<table id="goalsTB" border="1px" style="width:50%;margin:1rem auto; font-weight:normal;font-size:1rem;border-collapse:collapse;" >
+		<thead>
+			<tr style="font-weight:bold;font-size:1rem">
+				<td>名次</td>
+				<td>姓名</td>
+				<td>实力</td>
+				<td>场次</td>
+				<td style="color:green">胜利</td>
+				<td style="color:red">失败</td>
+				<td>胜率</td>
+				<td>积分</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+<hr />
+<div class="games">
+	<h5>近期比赛</h5>
+	<table id="recentGameTB" border="1px" style="width:50%;margin:10px auto; font-weight:normal;font-size:1rem;border-collapse:collapse;" >
+		<thead>
+			<tr style="font-weight:bold;font-size:1rem">
+				<td style="color:green">胜利</td>
+				<td style="color:red">失败</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+</div>
+<script>
+	var applySum=0;
+	var applyArr=[];
+	var players=[
+      { name: '吴涵雨' ,division:'歙县',strength:8.5,position:'上单',img:'./image/why.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '江山' ,division:'祁门',strength:8.7,position:'下路',img:'./image/js.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '汪敏生' ,division:'歙县',strength:8.9,position:'中单',img:'./image/wms.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '汪科宏' ,division:'祁门',strength:9.0,position:'上单',img:'./image/wkh.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '鲍堃' ,division:'祁门',strength:8.5,position:'中单',img:'./image/bk.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '詹达玮' ,division:'太平',strength:8.7,position:'中单',img:'./image/zdw.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '胡发杰' ,division:'歙县',strength:8.9,position:'下路',img:'./image/hfj.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '阿黎' ,division:'歙县',strength:8.0,position:'辅助',img:'./image/hfj.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '陈建明' ,division:'歙县',strength:8.0,position:'下路',img:'./image/cjm.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '杨一平' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/yyp.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '项旭志' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/xxz.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '方原' ,division:'祁门',strength:8.5,position:'下路',img:'./image/fy.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '黄绍伟' ,division:'歙县',strength:8.5,position:'打野',img:'./image/hsw.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]}
+    ];
+	var recentGame =[{id:1,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"]},{id:2,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"]},{id:3,teamF:["汪科宏","黄绍伟","胡发杰","阿黎","吴涵雨"],teamV:["汪敏生","项旭志","方原","江山","詹达玮"]},{id:4,teamF:["吴涵雨","汪科宏","詹达玮","方原","项旭志"],teamV:["黄绍伟","汪敏生","胡发杰","阿黎","江山"]}];
+	
+	//最近比赛数据表填充
+	var recentGameTB=document.getElementById("recentGameTB");
+	for(let i=recentGame.length-1;i>-1;i--){
+			let row = recentGameTB.insertRow(recentGameTB.FetchRowCount);
+			row = recentGameTB.insertRow(recentGameTB.FetchRowCount);
+			let teamV="",teamF="";
+				for(let k=0;k<recentGame[i].teamV.length;k++){
+					teamV+=recentGame[i].teamV[k]+" "
+					teamF+=recentGame[i].teamF[k]+" "
+				}
+				row.insertCell(0).innerHTML = teamV;
+				row.insertCell(1).innerHTML = teamF;
+			
+	}
+	
+	//积分榜数据计算及填充
+	let playerNames=[];
+	let playerStrengths=[];
+	let goalsTbDate=[];
+	
+	for(let i=0;i<players.length;i++){
+		playerNames.push(players[i].name);
+		playerStrengths.push(players[i].strength);
+	}
+
+	for(let i=0;i<playerNames.length;i++){ 
+		let countF=0,countV=0,goalsTbUnit={};
+		for(let k=0;k<recentGame.length;k++){
+			if(recentGame[k].teamF.indexOf(playerNames[i])>-1){
+				countF++
+			}
+			if(recentGame[k].teamV.indexOf(playerNames[i])>-1){
+				countV++
+			}
+		}
+
+		goalsTbUnit.name=playerNames[i];
+		goalsTbUnit.strength=playerStrengths[i];
+		goalsTbUnit.winNum=countV;
+		goalsTbUnit.failNum=countF;
+		goalsTbUnit.allNum=countF+countV;
+		goalsTbUnit.goals=(countV-countF)*5;
+		if(countF+countV==0){
+			goalsTbUnit.rate="0%";
+		}else{
+			goalsTbUnit.rate=Number(countV/(countF+countV)*100).toFixed(1)+"%";
+		}
+		
+		goalsTbDate.push(goalsTbUnit);
+
+	}
+	
+	goalsTbDate.sort(getSortFun('desc', 'goals'));
+	function getSortFun(order, sortBy) {
+		  var ordAlpah = (order == 'asc') ? '>' : '<';
+		  var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
+		  return sortFun;
+	}
+	var goalsTB=document.getElementById("goalsTB");
+	for(let i=0;i<playerNames.length;i++){
+			let row = goalsTB.insertRow(goalsTB.FetchRowCount);
+			row = goalsTB.insertRow(goalsTB.FetchRowCount);
+			row.insertCell(0).innerHTML = i+1;
+			row.insertCell(1).innerHTML = goalsTbDate[i].name;
+			row.insertCell(2).innerHTML = goalsTbDate[i].strength;
+			row.insertCell(3).innerHTML = goalsTbDate[i].allNum;
+			row.insertCell(4).innerHTML = goalsTbDate[i].winNum;
+			row.insertCell(5).innerHTML = goalsTbDate[i].failNum;
+			row.insertCell(6).innerHTML = goalsTbDate[i].rate;
+			row.insertCell(7).innerHTML = goalsTbDate[i].goals;
+	}
+
+
+	//获取复选框选中值
+	function getApply(checkbox){
+		if(checkbox.checked == true){
+			applySum+=1
+			applyArr.push(checkbox.value)
+		}else{
+			applySum+=-1
+			for(let i=0;i<applyArr.length;i++){
+
+				if(applyArr[i]==checkbox.value){
+					applyArr.splice(i,1)
+				}
+			}	
+		}
+		document.getElementById("applySum").innerHTML = applySum;
+	}
+	
+	function grouping(){
+		if(applyArr.length==10 || applyArr.length==8 ||  applyArr.length==6){
+			let cloneArr = applyArr.concat();
+			for(let i=0;i<cloneArr.length;i++){
+				let index = Math.floor(Math.random()*cloneArr.length);
+				var temp=cloneArr[index];
+				cloneArr[index]=cloneArr[i];
+				cloneArr[i]=temp;
+			}
+			let strenthArr=[]
+			for(let i=0;i<cloneArr.length;i++){
+				let strenthUnit={};
+				strenthUnit.play=cloneArr[i];
+				for(let k=0;k<players.length;k++){
+					if(strenthUnit.play==players[k].name){
+						strenthUnit.strenth=players[k].strength;
+						break;
+					}
+				}
+				strenthArr.push(strenthUnit)
+			}
+			
+			let listA="",listB="";
+			let half = cloneArr.length/2;
+			for(let i=0;i<half;i++){
+				listA+="<li class='groupli'>"+cloneArr[i]+"</li>";
+				listB+="<li class='groupli'>"+cloneArr[i+half]+"</li>";
+			}
+			console.log(strenthArr)
+			let strengthA=0,strengthB=0,payA=0,payB=0;
+			for(let i=0;i<cloneArr.length;i++){
+			
+				if(i<half){
+					strengthA+=strenthArr[i].strenth
+				}else{
+					strengthB+=strenthArr[i].strenth
+				}
+			}
+			strengthA=Number(strengthA/half).toFixed(1);
+			strengthB=Number(strengthB/half).toFixed(1);
+			
+			payB=Number((strengthA-8)*10).toFixed(0);
+			payA=Number((strengthB-8)*10).toFixed(0);
+			document.getElementById('group_playerA').innerHTML = listA;
+			document.getElementById('group_playerB').innerHTML = listB;
+			
+			document.getElementById('group_strengthA').innerHTML =strengthA;
+			document.getElementById('group_strengthB').innerHTML =strengthB;
+			
+			document.getElementById('group_payA').innerHTML =payA;
+			document.getElementById('group_payB').innerHTML =payB;
+		}else{
+			
+			alert("参赛队员不足！")
+		}
+		
+	}
+	
+var demo=new Vue({
+  el: '#main',
+  data: {
+	checked:[],
+    players: [
+      { name: '吴涵雨' ,division:'歙县',position:'上单',img:'./image/why.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '江山' ,division:'祁门',position:'下路',img:'./image/js.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '汪敏生' ,division:'歙县',position:'中单',img:'./image/wms.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '汪科宏' ,division:'祁门',position:'上单',img:'./image/wkh.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '鲍堃' ,division:'祁门',position:'中单',img:'./image/bk.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '詹达玮' ,division:'太平',position:'中单',img:'./image/zdw.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '胡发杰' ,division:'歙县',position:'下路',img:'./image/hfj.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  	  { name: '阿黎' ,division:'歙县',position:'辅助',img:'./image/hfj.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '陈建明' ,division:'歙县',position:'下路',img:'./image/cjm.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '杨一平' ,division:'歙县',position:'辅助',img:'./image/yyp.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+	  { name: '项旭志' ,division:'歙县',position:'辅助',img:'./image/xxz.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '方原' ,division:'祁门',position:'下路',img:'./image/fy.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
+      { name: '黄绍伟' ,division:'歙县',position:'打野',img:'./image/hsw.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]}
+    ],
+	results:[],
+	games:[
+		{teamFail:[{name:'吴涵雨',hero:"德玛西亚之力",kda:"14-4-4",place:"上单",score:13.9},{name:'汪科宏',hero:"德邦总管",kda:"6-8-6",place:"打野",score:9.6},{name:'詹达玮',hero:"卡牌大师",kda:"4-7-9",place:"中单",score:8},{name:'方原',hero:"荣耀提刑官",kda:"1-8-6",place:"下路",score:6.1},{name:'项旭志',hero:"光辉女郎",kda:"3-9-4",place:"辅助",score:3.2}],teamWin:[{name:'黄绍伟',hero:"赏金猎人",kda:"7-3-17",place:"下路",score:13.3},{name:'汪敏生',hero:"战争之灵",kda:"8-12-17",place:"打野",score:9.7},{name:'胡发杰',hero:"远古巫灵",kda:"10-1-15",place:"中单",score:14.7},{name:'妹子',hero:"风暴之女",kda:"3-4-21",place:"辅助",score:11.5},{name:'江山',hero:"暗夜猎手",kda:"8-8-3",place:"上单",score:9.6}]},
+	]
+  },
+  computed: {
+    
+  },
+  methods: {
+    submit:function() {
+        console.log(this.results)
+    },
+    changeResult:function(score){
+        var temp = {score:score};
+        this.results.push(temp);
+    },
+	teamPlayer: function (team) {
+		let players = []
+		for (player in team){
+			players.push(team[player].name)
+		}
+      return players
+    }
+	
+
+}
+})
+</script>
+</body>
+</html>
