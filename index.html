@@ -12,6 +12,12 @@
 		margin:0;
 		padding:0;
 	}
+	body{
+		background-color:#F6F6F6;
+		font:1rem 'Open Sans', sans-serif;
+		color: #555;
+		text-align:center;
+	}
 	.players{
 		display:inline-block;
 		//float:left
@@ -35,10 +41,11 @@
 		width:60px;
 		height:60px;
 	}
-	body{
-		font:1rem 'Open Sans', sans-serif;
-		color: #5e5b64;
-		text-align:center;
+	.header{
+		background:url(./image/poster.jpg) no-repeat;
+		width:100%;
+		height:300px;
+		background-size:100% 100%;
 	}
 	.submit_button{
 	width:100%;
@@ -50,9 +57,9 @@
 <body>
 <div id="main">
 <div class="header">
-  <h1>诺克萨斯杯业余赛</h1>
+  <!--<h1>诺克萨斯杯业余赛</h1>-->
 </div>
-<h2 style="">目前已报名人数：<span style="font-size:2rem" id="applySum">{{applySum}}</span><h2>
+<h2 style="">目前已报名人数：<span style="font-size:2rem" id="applySum">{{applySum}}</span></h2>
 
 <ul class="player">
   <li class="players" v-for="item in players" :key="item.name">
@@ -85,9 +92,18 @@
 	</table>
 </div>
 <hr />
-<div class="goals">
+<div style="width:100%;height:320px">
+<div class="goals_left" style="width:10%;float:left;text-align:center;">
+	<div style="padding:5px;margin:5px;">
+		<img class="img_player" src="./image/lcns.png"/>
+		<h4>大赢家</h4>
+		<h1 id="lcns"></h1>
+	</div>
+</div>
+
+<div class="goals_center" style="width:80%;float:left">
 	<h5>积分榜</h5>
-	<table id="goalsTB" border="1px" style="width:95%;margin:1rem auto; font-weight:normal;font-size:1rem;border-collapse:collapse;" >
+	<table id="goalsTB" border="1px" style="width:80%;margin:1rem auto; font-weight:normal;font-size:1rem;border-collapse:collapse;" >
 		<thead>
 			<tr style="font-weight:bold;font-size:1rem">
 				<td>名次</td>
@@ -102,7 +118,17 @@
 		</thead>
 	</table>
 </div>
+<div class="goals_right" style="width:10%;float:right;text-align:center;">
+	<div style="padding:5px;margin:5px;">
+		<img class="img_player" src="./image/sctz.png"/>
+		<h4>慈善家</h4>
+		<h1 id="sctz"></h1>
+	</div>
+</div>
+</div>
+
 <hr />
+
 <div class="games">
 	<h5>近期比赛</h5>
 	<table id="recentGameTB" border="1px" style="width:95%;margin:10px auto; font-weight:normal;font-size:1rem;border-collapse:collapse;" >
@@ -121,21 +147,21 @@
 	var applyArr=[];
 	var players=[
       { name: '吴涵雨' ,division:'歙县',strength:8.5,position:'上单',img:'./image/why.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '江山' ,division:'祁门',strength:8.7,position:'下路',img:'./image/js.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '汪敏生' ,division:'歙县',strength:8.8,position:'中单',img:'./image/wms.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-	  { name: '汪科宏' ,division:'祁门',strength:9.0,position:'上单',img:'./image/wkh.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '鲍堃' ,division:'祁门',strength:8.3,position:'中单',img:'./image/bk.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '詹达玮' ,division:'太平',strength:8.7,position:'中单',img:'./image/zdw.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-	  { name: '胡发杰' ,division:'歙县',strength:8.9,position:'下路',img:'./image/hfj.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-	  { name: '阿黎' ,division:'歙县',strength:8.0,position:'辅助',img:'./image/hfj.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '陈建明' ,division:'歙县',strength:8.0,position:'下路',img:'./image/cjm.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '杨一平' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/yyp.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-	  { name: '项旭志' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/xxz.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '方原' ,division:'祁门',strength:8.3,position:'下路',img:'./image/fy.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-	  { name: '胡哲' ,division:'歙县',strength:8.1,position:'上单',img:'./image/hz.png',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]},
-      { name: '黄绍伟' ,division:'歙县',strength:8.3,position:'打野',img:'./image/hsw.jpg',killed:'3.2',creep:149,heros:[{name:'诺克萨斯之手',image:'无',usedNum:11,winRate:0}]}
+      { name: '江山' ,division:'祁门',strength:8.7,position:'下路',img:'./image/js.jpg',killed:'3.2',creep:149,heros:[{name:'皮城女警',image:'无',usedNum:11,winRate:0}]},
+      { name: '汪敏生' ,division:'歙县',strength:8.8,position:'中单',img:'./image/wms.jpg',killed:'3.2',creep:149,heros:[{name:'法外狂徒',image:'无',usedNum:11,winRate:0}]},
+	  { name: '汪科宏' ,division:'祁门',strength:9.0,position:'上单',img:'./image/wkh.png',killed:'3.2',creep:149,heros:[{name:'扭曲树精',image:'无',usedNum:11,winRate:0}]},
+      { name: '鲍堃' ,division:'祁门',strength:8.3,position:'中单',img:'./image/bk.jpg',killed:'3.2',creep:149,heros:[{name:'虚空行者',image:'无',usedNum:11,winRate:0}]},
+      { name: '詹达玮' ,division:'太平',strength:8.7,position:'中单',img:'./image/zdw.png',killed:'3.2',creep:149,heros:[{name:'发条魔灵',image:'无',usedNum:11,winRate:0}]},
+	  { name: '胡发杰' ,division:'歙县',strength:8.9,position:'下路',img:'./image/hfj.png',killed:'3.2',creep:149,heros:[{name:'远古巫灵',image:'无',usedNum:11,winRate:0}]},
+	  { name: '阿黎' ,division:'歙县',strength:8.0,position:'辅助',img:'./image/hfj.jpg',killed:'3.2',creep:149,heros:[{name:'光辉女郎',image:'无',usedNum:11,winRate:0}]},
+      { name: '陈建明' ,division:'歙县',strength:8.0,position:'下路',img:'./image/cjm.jpg',killed:'3.2',creep:149,heros:[{name:'熔岩巨兽',image:'无',usedNum:11,winRate:0}]},
+      { name: '杨一平' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/yyp.png',killed:'3.2',creep:149,heros:[{name:'魂锁典狱长',image:'无',usedNum:11,winRate:0}]},
+	  { name: '项旭志' ,division:'歙县',strength:7.8,position:'辅助',img:'./image/xxz.png',killed:'3.2',creep:149,heros:[{name:'沙漠死神',image:'无',usedNum:11,winRate:0}]},
+      { name: '方原' ,division:'祁门',strength:8.3,position:'下路',img:'./image/fy.png',killed:'3.2',creep:149,heros:[{name:'荣耀提刑官',image:'无',usedNum:11,winRate:0}]},
+	  { name: '胡哲' ,division:'歙县',strength:8.1,position:'上单',img:'./image/hz.png',killed:'3.2',creep:149,heros:[{name:'猩红收割者',image:'无',usedNum:11,winRate:0}]},
+      { name: '黄绍伟' ,division:'歙县',strength:8.3,position:'打野',img:'./image/hsw.jpg',killed:'3.2',creep:149,heros:[{name:'无极剑圣',image:'无',usedNum:11,winRate:0}]}
     ];
-	var recentGame =[{id:1,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"]},{id:2,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"]},{id:3,teamF:["汪科宏","黄绍伟","胡发杰","阿黎","吴涵雨"],teamV:["汪敏生","项旭志","方原","江山","詹达玮"]},{id:4,teamF:["吴涵雨","汪科宏","詹达玮","方原","项旭志"],teamV:["黄绍伟","汪敏生","胡发杰","阿黎","江山"]},{id:5,teamF:["吴涵雨","鲍堃","詹达玮","胡发杰","项旭志"],teamV:["方原","汪敏生","汪科宏","阿黎","江山"]},{id:6,teamF:["吴涵雨","阿黎","詹达玮","鲍堃","江山"],teamV:["汪科宏","汪敏生","胡发杰","方原","项旭志"]},{id:7,teamF:["黄绍伟","鲍堃","詹达玮","方原","汪敏生"],teamV:["项旭志","汪科宏","胡发杰","阿黎","江山"]},{id:8,teamF:["黄绍伟","鲍堃","胡发杰","方原","汪敏生"],teamV:["汪科宏","詹达玮","项旭志","阿黎","江山"]}];
+	var recentGame =[{id:1,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"],herosF:["","","","",""],herosv:["","","","",""]},{id:2,teamF:["江山","黄绍伟","项旭志","方原","吴涵雨"],teamV:["汪敏生","胡发杰","阿黎","汪科宏","詹达玮"],herosF:["","","","",""],herosv:["","","","",""]},{id:3,teamF:["汪科宏","黄绍伟","胡发杰","阿黎","吴涵雨"],teamV:["汪敏生","项旭志","方原","江山","詹达玮"],herosF:["","","","",""],herosv:["","","","",""]},{id:4,teamF:["吴涵雨","汪科宏","詹达玮","方原","项旭志"],teamV:["黄绍伟","汪敏生","胡发杰","阿黎","江山"],herosF:["","","","",""],herosv:["","","","",""]},{id:5,teamF:["吴涵雨","鲍堃","詹达玮","胡发杰","项旭志"],teamV:["方原","汪敏生","汪科宏","阿黎","江山"],herosF:["","","","",""],herosv:["","","","",""]},{id:6,teamF:["吴涵雨","阿黎","詹达玮","鲍堃","江山"],teamV:["汪科宏","汪敏生","胡发杰","方原","项旭志"],herosF:["","","","",""],herosv:["","","","",""]},{id:7,teamF:["黄绍伟","鲍堃","詹达玮","方原","汪敏生"],teamV:["项旭志","汪科宏","胡发杰","阿黎","江山"],herosF:["","","","",""],herosv:["","","","",""]},{id:8,teamF:["黄绍伟","鲍堃","胡发杰","方原","汪敏生"],teamV:["汪科宏","詹达玮","项旭志","阿黎","江山"],herosF:["","","","",""],herosv:["","","","",""]}];
 	
 	//最近比赛数据表填充
 	var recentGameTB=document.getElementById("recentGameTB");
@@ -208,8 +234,9 @@
 			row.insertCell(6).innerHTML = goalsTbDate[i].rate;
 			row.insertCell(7).innerHTML = goalsTbDate[i].goals;
 	}
-
-
+	var playerNum=goalsTbDate.length;
+	document.getElementById("sctz").innerHTML = goalsTbDate[playerNum-1].name;
+	document.getElementById("lcns").innerHTML = goalsTbDate[0].name;;
 	//获取复选框选中值
 	function getApply(checkbox){
 		if(checkbox.checked == true){
